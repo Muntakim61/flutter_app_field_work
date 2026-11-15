@@ -3,17 +3,15 @@ import 'package:provider/provider.dart';
 import 'providers/product_provider.dart';
 import 'screens/splash_screen.dart';
 
-void main() {
+void main(){
   runApp(const MyApp());
 }
-
-class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget{
   const MyApp({super.key});
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return ChangeNotifierProvider(
-      create: (_) => ProductProvider(),
+      create: (_)=>ProductProvider(),
       child: MaterialApp(
         title: 'Product Explorer',
         theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)),

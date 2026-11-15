@@ -5,25 +5,25 @@ import '../providers/product_provider.dart';
 import '../widgets/product_card.dart';
 import 'detail_screen.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatefulWidget{
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreen> createState()=>_HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  final _searchController = TextEditingController();
+class _HomeScreenState extends State<HomeScreen>{
+  final _searchController=TextEditingController();
 
   @override
-  void dispose() {
+  void dispose(){
     _searchController.dispose();
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) {
-    final provider = context.watch<ProductProvider>();
+  Widget build(BuildContext context){
+    final provider=context.watch<ProductProvider>();
 
     return Scaffold(
       appBar: AppBar(title: const Text('Products')),
@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              onSubmitted: (q) => context.read<ProductProvider>().search(q),
+              onSubmitted: (q)=>context.read<ProductProvider>().search(q),
             ),
           ),
           Expanded(child: _buildBody(provider)),
@@ -68,8 +68,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildBody(ProductProvider provider) {
-    if (provider.error != null && provider.products.isEmpty) {
+  Widget _buildBody(ProductProvider provider){
+    if (provider.error!=null && provider.products.isEmpty){
       return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -80,25 +80,25 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       );
     }
-    if (provider.products.isEmpty && provider.isLoading) {
+    if (provider.products.isEmpty && provider.isLoading){
       return const Center(child: CircularProgressIndicator());
     }
-    if (provider.products.isEmpty) {
+    if (provider.products.isEmpty){
       return const Center(child: Text('No products found'));
     }
 
-    final width = MediaQuery.of(context).size.width;
+    final width=MediaQuery.of(context).size.width;
     int crossAxisCount;
     double aspectRatio;
-    if (width >= 900) {
-      crossAxisCount = 4;
-      aspectRatio = 0.7;
-    } else if (width >= 600) {
-      crossAxisCount = 3;
-      aspectRatio = 0.7;
-    } else {
-      crossAxisCount = 1;
-      aspectRatio = 1.4;
+    if (width >= 900){
+      crossAxisCount=4;
+      aspectRatio=0.7;
+    } else if (width >= 600){
+      crossAxisCount=3;
+      aspectRatio=0.7;
+    } else{
+      crossAxisCount=1;
+      aspectRatio=1.4;
     }
 
     return RefreshIndicator(
@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // Align product content with the more spacious search field.
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
             children: [
-              if (provider.error != null)
+              if (provider.error!=null)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: Text(
@@ -130,13 +130,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisSpacing: 12,
                 ),
                 itemCount: provider.products.length,
-                itemBuilder: (context, index) {
-                  final product = provider.products[index];
+                itemBuilder: (context, index){
+                  final product=provider.products[index];
                   return ProductCard(
                     product: product,
-                    onTap: () => Navigator.of(context).push(
+                    onTap: ()=>Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (_) => DetailScreen(product: product),
+                        builder: (_)=>DetailScreen(product: product),
                       ),
                     ),
                   );
@@ -148,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
               else if (provider.hasMore && !provider.isSearching)
                 Center(
                   child: ElevatedButton(
-                    onPressed: () => context.read<ProductProvider>().loadMore(),
+                    onPressed: ()=>context.read<ProductProvider>().loadMore(),
                     child: const Text('Load More'),
                   ),
                 )

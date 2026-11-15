@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 
 import '../models/product.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatelessWidget{
   final Product product;
   const DetailScreen({super.key, required this.product});
 
   @override
-  Widget build(BuildContext context) {
-    final images = product.images.isNotEmpty
+  Widget build(BuildContext context){
+    final images=product.images.isNotEmpty
         ? product.images
         : [product.thumbnail];
 
     return Scaffold(
       appBar: AppBar(title: const Text('Product Details')),
       body: LayoutBuilder(
-        builder: (context, constraints) {
-          final isWide = constraints.maxWidth >= 700;
+        builder: (context, constraints){
+          final isWide=constraints.maxWidth >= 700;
 
           return Center(
             child: ConstrainedBox(
@@ -36,14 +36,14 @@ class DetailScreen extends StatelessWidget {
                         height: isWide ? 340 : 240,
                         child: PageView.builder(
                           itemCount: images.length,
-                          itemBuilder: (context, index) {
-                            final imageUrl = images[index];
+                          itemBuilder: (context, index){
+                            final imageUrl=images[index];
                             return ClipRRect(
                               borderRadius: BorderRadius.circular(16),
                               child: Image.network(
                                 imageUrl,
                                 fit: BoxFit.contain,
-                                errorBuilder: (_, _, _) => const Center(
+                                errorBuilder: (_, _, _)=>const Center(
                                   child: Icon(Icons.broken_image, size: 50),
                                 ),
                               ),

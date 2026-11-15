@@ -4,31 +4,31 @@ import 'package:provider/provider.dart';
 import '../providers/product_provider.dart';
 import 'home_screen.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatefulWidget{
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<SplashScreen> createState()=>_SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>{
   @override
-  void initState() {
+  void initState(){
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_){
       if (mounted) _start();
     });
   }
 
-  Future<void> _start() async {
+  Future<void> _start() async{
     await context.read<ProductProvider>().fetchInitial();
     if (!mounted) return;
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (_) => const HomeScreen()));
+        .pushReplacement(MaterialPageRoute(builder: (_)=>const HomeScreen()));
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Scaffold(
       body: Center(
         // Pair the app mark and name with progress feedback while initial data loads.

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../models/product.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatelessWidget{
   final Product product;
   final VoidCallback onTap;
 
   const ProductCard({super.key, required this.product, required this.onTap});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return GestureDetector(
       onTap: onTap,
       child: Card(
@@ -28,11 +28,11 @@ class ProductCard extends StatelessWidget {
                 product.thumbnail,
                 fit: BoxFit.cover,
                 width: double.infinity,
-                loadingBuilder: (context, child, progress) {
+                loadingBuilder: (context, child, progress){
                   if (progress == null) return child;
                   return const Center(child: CircularProgressIndicator());
                 },
-                errorBuilder: (_, __, ___) => const Icon(Icons.broken_image),
+                errorBuilder: (_, __, ___)=>const Icon(Icons.broken_image),
               ),
             ),
             Padding(

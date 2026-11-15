@@ -1,4 +1,4 @@
-class Product {
+class Product{
   final int id;
   final String title;
   final String description;
@@ -21,7 +21,7 @@ class Product {
     required this.images,
   });
 
-  factory Product.fromJson(Map<String, dynamic> json) {
+  factory Product.fromJson(Map<String, dynamic> json){
     return Product(
       id: json['id'],
       title: json['title'],
