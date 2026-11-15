@@ -1,30 +1,44 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_application_1/main.dart';
+import 'package:flutter_application_1/models/product.dart';
+import 'package:flutter_application_1/widgets/product_card.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('product card shows product details and responds to taps', (
+    tester,
+  ) async {
+    final product = Product(
+      id: 1,
+      title: 'Sample product',
+      description: 'A short product description.',
+      price: 12.5,
+      category: 'Sample category',
+      rating: 4.5,
+      stock: 10,
+      thumbnail: 'https://example.com/image.jpg',
+      images: const [],
+    );
+    var wasTapped = false;
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: SizedBox(
+            width: 360,
+            height: 320,
+            child: ProductCard(product: product, onTap: () => wasTapped = true),
+          ),
+        ),
+      ),
+    );
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    expect(find.text(product.title), findsOneWidget);
+    expect(find.text(product.category), findsOneWidget);
+    expect(find.text(product.description), findsOneWidget);
+    expect(find.text('\$${product.price}'), findsOneWidget);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    await tester.tap(find.text(product.title));
+    expect(wasTapped, isTrue);
   });
 }

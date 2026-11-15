@@ -53,3 +53,5 @@ This app uses the DummyJSON product API:
 - https://dummyjson.com/products
 
 It is a lightweight demo app for learning Flutter UI, state management, and API integration.
+
+The project scope is API-based product browsing, search, and pagination; it does not include CRUD or offline local storage.

@@ -29,7 +29,10 @@ class ProductApi {
   }
 
   Future<ProductPage> searchProducts(String query) async {
-    final res = await http.get(Uri.parse('$_base/search?q=$query'));
+    final uri = Uri.parse('$_base/search').replace(
+      queryParameters: {'q': query.trim()},
+    );
+    final res = await http.get(uri);
     if (res.statusCode != 200) {
       throw Exception('Search failed (${res.statusCode})');
     }

@@ -30,13 +30,34 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(12),
+            // Softer fill and rounded focus states make search clearer without changing behavior.
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
             child: TextField(
               controller: _searchController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: 'Search products',
                 prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
+                filled: true,
+                fillColor: Theme.of(context).colorScheme.surfaceContainerHighest
+                    .withValues(alpha: 0.45),
+                contentPadding: const EdgeInsets.symmetric(vertical: 14),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide.none,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.outlineVariant,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.primary,
+                    width: 1.5,
+                  ),
+                ),
               ),
               onSubmitted: (q) => context.read<ProductProvider>().search(q),
             ),
@@ -49,7 +70,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildBody(ProductProvider provider) {
     if (provider.error != null && provider.products.isEmpty) {
-      return Center(child: Text('Error: ${provider.error}'));
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Error: ${provider.error}'),
+            TextButton(onPressed: provider.refresh, child: const Text('Retry')),
+          ],
+        ),
+      );
     }
     if (provider.products.isEmpty && provider.isLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -78,8 +107,19 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1200),
           child: ListView(
-            padding: const EdgeInsets.all(12),
+            // Align product content with the more spacious search field.
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
             children: [
+              if (provider.error != null)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: Text(
+                    'Could not load products: ${provider.error}',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                ),
               GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -105,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 16),
               if (provider.isLoading)
                 const Center(child: CircularProgressIndicator())
-              else if (provider.hasMore)
+              else if (provider.hasMore && !provider.isSearching)
                 Center(
                   child: ElevatedButton(
                     onPressed: () => context.read<ProductProvider>().loadMore(),
